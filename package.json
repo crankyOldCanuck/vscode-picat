@@ -74,6 +74,11 @@
             "type": "object",
             "title": "Picat",
             "properties": {
+                "picat.executablePath": {
+                    "type": "string",
+                    "default": "picat",
+                    "description": "Points to the Picat executable. Leave at default if on path."
+                },
                 "picat.showRunIconInEditorTitleMenu": {
                     "type": "boolean",
                     "default": false,

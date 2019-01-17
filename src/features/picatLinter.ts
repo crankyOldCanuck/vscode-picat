@@ -47,18 +47,10 @@ export default class PicatLinter implements CodeActionProvider {
 
     private loadConfiguration(): void {
         let section = workspace.getConfiguration("picat");
+
         if (section) {
-            // Not part of my config, will use the default.
-            // Assume picat is on path.
             this._executable = section.get<string>("executablePath", "picat");
-
-            if (this._documentListener) {
-                this._documentListener.dispose();
-            }
-
-            if (this._openDocumentListener) {
-                this._openDocumentListener.dispose();
-            }
+            this.dispose();
         }
 
         this._documentListener = workspace.onDidSaveTextDocument(this.doPlint, this);
@@ -102,7 +94,7 @@ export default class PicatLinter implements CodeActionProvider {
                     let message = "";
 
                     if (err.code === "ENOENT") {
-                        message = `Cannot lint the Picat file. The Picat executable was not found. This extension assumes Picat is on your path`;
+                        message = `Cannot lint the Picat file. The Picat executable was not found at ${this._executable}. Use the Picat Executable Path setting to configure.`;
                     } else {
                         message = err.message
                             ? err.message
@@ -126,7 +118,12 @@ export default class PicatLinter implements CodeActionProvider {
         return codeActions;
     }
     public dispose(): void {
-        this._documentListener.dispose();
-        this._openDocumentListener.dispose();
+        if (this._documentListener) {
+            this._documentListener.dispose();
+        }
+
+        if (this._openDocumentListener) {
+            this._openDocumentListener.dispose();
+        }
     }
 }
