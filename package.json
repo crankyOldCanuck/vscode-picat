@@ -3,7 +3,7 @@
     "displayName": "Picat",
     "description": "Support for Picat language",
     "version": "0.0.1",
-    "publisher": "grb",
+    "publisher": "cranky",
     "license": "MIT",
     "engines": {
         "vscode": "^1.30.0"
@@ -42,31 +42,31 @@
         "menus": {
             "editor/title": [
                 {
-                    "when": "resourceLangId == picat && config.picat.showRunIconInEditorTitleMenu",
+                    "when": "resourceLangId == picat",
                     "command": "extension.run",
-                    "group": "mypicat"
+                    "group": "navigation"
                 }
             ],
             "editor/context": [
                 {
                     "command": "extension.open",
                     "when": "resourceLangId == picat",
-                    "group": "mypicat"
+                    "group": "navigation"
                 },
                 {
                     "command": "extension.show",
                     "when": "resourceLangId == picat",
-                    "group": "mypicat"
+                    "group": "navigation"
                 },
                 {
                     "command": "extension.hide",
                     "when": "resourceLangId == picat",
-                    "group": "mypicat"
+                    "group": "navigation"
                 },
                 {
                     "command": "extension.run",
                     "when": "resourceLangId == picat",
-                    "group": "mypicat"
+                    "group": "navigation"
                 }
             ]
         },
@@ -78,12 +78,6 @@
                     "type": "string",
                     "default": "picat",
                     "description": "Points to the Picat executable. Leave at default if on path."
-                },
-                "picat.showRunIconInEditorTitleMenu": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Show Picat icon (= run document) in editor title menu.",
-                    "scope": "resource"
                 },
                 "picat.clearPreviousOutput": {
                     "type": "boolean",
