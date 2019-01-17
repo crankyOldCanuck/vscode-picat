@@ -1,65 +1,94 @@
-# picat README
+# vscode-picat README
 
-This is the README for your extension "picat". After writing up a brief description, we recommend including the following sections.
+Basically a fork of arthwang/vsc-picat. It wasn't working for me in Windows so instead of logging issues I thought I would take the opportunity to learn how to write my own vscode extension. Just for fun and seems to be working for me.
+Note this is for my own use and I am not planning to publish
+this extension to the marketplace.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+  * [Syntax highlighting](#syntax-highlighting)
+  * [Snippets](#predicate-snippets)
+  * [Information Hovers](#information-hovers)
+  * [Run active source file](#run-active-source-file)
 
-For example if there is an image subfolder under your extension project workspace:
+## Feature descriptions and usages
 
-\!\[feature X\]\(images/feature-x.png\)
+### Syntax highlighting
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+  * Builtin pattern support
 
-## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### Predicate snippets
+
+  * Predicate templates auto-completion
+  * flow controls snippets support
+  * Produced from the documents of picat system
+
+
+### Information hovers
+  Hovers show Document information about the predicate under the mouse cursor.
+
+### Grammar linter
+  The grammar errors (if any) will display in OUTPUT channel when active source file is saved.
+
+### Run active source file
+
+  * Command `Picat: Open terminal`
+    Opens the integrated terminal with the picat command preloaded.
+    This is required before attempting to run code.
+    This command is available from the command palette as
+    well as the editor context menu.
+
+  * Command `Picat: Run document`
+    compile the source file in active editor into picat process in the integrated terminal and run the main/0. The picat process provides a real REPL console.
+    This command is available from the command palette as
+    well as the editor context menu. Also as a convenience
+    it is available on the editor title bar. Click
+    on the Picat icon.
+
+  * Command `Picat: Show terminal`
+    shows the integrated terminal if hidden.
+    This command is available from the command palette as
+    well as the editor context menu.
+
+  * Command `Picat: Hide terminal`
+    hides the integrated terminal if showing.
+    This command is available from the command palette as
+    well as the editor context menu.
+
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+* `picat.executablePath`: Points to the Picat executable on    your system. Leave at default (picat) if it is on your
+   path. For Windows you need to escape backslashes,
+   eg. C:\\\\...
+
+* `picat.clearPreviousOutput`: clears the integrated
+   terminal before running a document.
+
+* `picat.preserveFocus`: keeps the focus in your active
+   editor after running a document.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+* When you first open VS Code, if the active editor has a
+  Picat file opened, the extension is not yet activated.
+  This means you won't see the Picat icon in the title bar
+  or the commands in the context menu (although they appear in the palette).
+  You should switch tabs or open another Picat file to activate the extension.
+
+## Acknowledgements
+
+Arthur Wang who published the extension vsc-picat.
+
+## License
+
+[MIT](http://www.opensource.org/licenses/mit-license.php)
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release.
