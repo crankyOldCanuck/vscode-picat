@@ -2,15 +2,37 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import PicatLinter from "./features/picatLinter";
+import PicatDocumentHighlightProvider from "./features/documentHighlightProvider";
+import { loadEditHelpers } from "./features/editHelpers";
+import { Utils } from "./utils/utils";
+import PicatHoverProvider from "./features/hoverProvider";
 
 export function activate(context: vscode.ExtensionContext) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log('Extension "picat" is now active!');
 
+    const PICAT_MODE: vscode.DocumentFilter = { language: "picat", scheme: "file" };
+
+    loadEditHelpers(context.subscriptions);
+
     let linter = new PicatLinter(context);
     linter.activate();
 
+    Utils.init(context);
+
+    context.subscriptions.push(
+        vscode.languages.registerHoverProvider(
+            PICAT_MODE,
+            new PicatHoverProvider()
+        )
+    );
+    context.subscriptions.push(
+        vscode.languages.registerDocumentHighlightProvider(
+            PICAT_MODE,
+            new PicatDocumentHighlightProvider()
+        )
+    );
     context.subscriptions.push(
         vscode.commands.registerCommand("extension.open", () => {
             let terminal = vscode.window.createTerminal("Picat");

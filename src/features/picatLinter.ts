@@ -22,12 +22,13 @@ export default class PicatLinter implements CodeActionProvider {
     private _documentListener!: Disposable;
     private _openDocumentListener!: Disposable;
     private _outputChannel: Nullable<OutputChannel> = null;
+
     constructor(private context: ExtensionContext) {
         this._executable = "";
     }
+
     public activate(): void {
         let subscriptions: Disposable[] = this.context.subscriptions;
-        // this.diagnosticCollection = languages.createDiagnosticCollection();
 
         workspace.onDidChangeConfiguration(this.loadConfiguration, this, subscriptions);
         this.loadConfiguration();
@@ -107,6 +108,7 @@ export default class PicatLinter implements CodeActionProvider {
                 }
             );
     }
+
     provideCodeActions(
         document: TextDocument,
         range: Range,
@@ -117,6 +119,7 @@ export default class PicatLinter implements CodeActionProvider {
 
         return codeActions;
     }
+
     public dispose(): void {
         if (this._documentListener) {
             this._documentListener.dispose();
