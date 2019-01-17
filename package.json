@@ -1,0 +1,141 @@
+{
+    "name": "picat",
+    "displayName": "Picat",
+    "description": "Support for Picat language",
+    "version": "0.0.1",
+    "publisher": "grb",
+    "license": "MIT",
+    "engines": {
+        "vscode": "^1.30.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Snippets"
+    ],
+    "activationEvents": [
+        "onLanguage:picat"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.open",
+                "title": "Picat: Open terminal"
+            },
+            {
+                "command": "extension.show",
+                "title": "Picat: Show terminal"
+            },
+            {
+                "command": "extension.hide",
+                "title": "Picat: Hide terminal"
+            },
+            {
+                "command": "extension.run",
+                "title": "Picat: Run document",
+                "icon": {
+                    "light": "images/picat.png",
+                    "dark": "images/picat_inv.png"
+                }
+            }
+        ],
+        "menus": {
+            "editor/title": [
+                {
+                    "when": "resourceLangId == picat && config.picat.showRunIconInEditorTitleMenu",
+                    "command": "extension.run",
+                    "group": "mypicat"
+                }
+            ],
+            "editor/context": [
+                {
+                    "command": "extension.open",
+                    "when": "resourceLangId == picat",
+                    "group": "mypicat"
+                },
+                {
+                    "command": "extension.show",
+                    "when": "resourceLangId == picat",
+                    "group": "mypicat"
+                },
+                {
+                    "command": "extension.hide",
+                    "when": "resourceLangId == picat",
+                    "group": "mypicat"
+                },
+                {
+                    "command": "extension.run",
+                    "when": "resourceLangId == picat",
+                    "group": "mypicat"
+                }
+            ]
+        },
+        "configuration": {
+            "type": "object",
+            "title": "Picat",
+            "properties": {
+                "picat.showRunIconInEditorTitleMenu": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Show Picat icon (= run document) in editor title menu.",
+                    "scope": "resource"
+                },
+                "picat.clearPreviousOutput": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Clear previous output before each run.",
+                    "scope": "resource"
+                },
+                "picat.preserveFocus": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Preserve focus on code editor after document run is triggered.",
+                    "scope": "resource"
+                }
+            }
+        },
+        "languages": [
+            {
+                "id": "picat",
+                "aliases": [
+                    "Picat"
+                ],
+                "extensions": [
+                    ".pi"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "picat",
+                "scopeName": "source.pi",
+                "path": "./syntaxes/picat.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "picat",
+                "path": "./snippets/picat.json"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^3.1.4",
+        "vscode": "^1.1.25",
+        "tslint": "^5.8.0",
+        "@types/node": "^8.10.25",
+        "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "process-promises": "^1.0.0",
+        "split": "^1.0.1"
+    }
+}
