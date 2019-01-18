@@ -1,3 +1,5 @@
+"use strict";
+
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
@@ -34,9 +36,15 @@ export function activate(context: vscode.ExtensionContext) {
         )
     );
     context.subscriptions.push(
+        // The active terminal is the one that currently has focus
+        // or most recently had focus. Thus it must be given
+        // the focus when opened.
         vscode.commands.registerCommand("extension.open", () => {
             let terminal = vscode.window.createTerminal("Picat");
-            terminal.sendText("picat");
+            let config = vscode.workspace.getConfiguration("picat");
+            let path = config.get<string>("executablePath", "picat");
+
+            terminal.sendText(path);
             terminal.show();
         })
     );
@@ -62,7 +70,7 @@ export function activate(context: vscode.ExtensionContext) {
                 terminal.show(preserveFocus);
             }
             else {
-                vscode.window.showErrorMessage("No active terminal");
+                vscode.window.showErrorMessage("No active terminal.");
             }
         })
     );
@@ -71,8 +79,8 @@ export function activate(context: vscode.ExtensionContext) {
             let terminal = vscode.window.activeTerminal;
             let editor = vscode.window.activeTextEditor;
 
-            if (!terminal) {
-                vscode.window.showErrorMessage("No active terminal");
+            if (!terminal || terminal.name !== "Picat") {
+                vscode.window.showErrorMessage("Please open a Picat terminal first.");
             }
             else {
                 if (editor) {
@@ -103,7 +111,7 @@ export function activate(context: vscode.ExtensionContext) {
                     terminal.show(preserveFocus);
                 }
                 else {
-                    vscode.window.showErrorMessage("No active editor");
+                    vscode.window.showErrorMessage("No active editor.");
                 }
             }
         })
