@@ -1,17 +1,30 @@
 {
-    "name": "picat",
+    "name": "vscode-picat",
     "displayName": "Picat",
     "description": "Support for Picat language",
     "version": "0.0.1",
-    "publisher": "cranky",
+    "publisher": "crankyOldCanuck",
     "license": "MIT",
     "engines": {
         "vscode": "^1.30.0"
     },
     "categories": [
         "Programming Languages",
-        "Snippets"
+        "Snippets",
+        "Linters"
     ],
+    "keywords": [
+        "picat",
+        "linter",
+        "snippet"
+    ],
+    "author": {
+        "name": "cranky"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/crankyOldCanuck/vscode-picat"
+    },
     "activationEvents": [
         "onLanguage:picat"
     ],
