@@ -1,17 +1,17 @@
-import {
-    CodeActionProvider,
-    TextDocument,
-    Range,
-    CodeActionContext,
-    CancellationToken,
-    Command,
-    workspace,
-    Disposable,
-    OutputChannel,
-    ExtensionContext,
-    window
-} from "vscode";
 import { spawn } from "process-promises";
+import {
+    CancellationToken,
+    CodeActionContext,
+    CodeActionProvider,
+    Command,
+    Disposable,
+    ExtensionContext,
+    OutputChannel,
+    Range,
+    TextDocument,
+    window,
+    workspace,
+} from "vscode";
 
 type Nullable<T> = T | null;
 
@@ -25,8 +25,19 @@ export default class PicatLinter implements CodeActionProvider {
         this._executable = "";
     }
 
+    public provideCodeActions(
+        _document: TextDocument,
+        _range: Range,
+        _context: CodeActionContext,
+        _token: CancellationToken,
+    ): Command[] | Thenable<Command[]> {
+        const codeActions: Command[] = [];
+
+        return codeActions;
+    }
+
     public activate(): void {
-        let subscriptions: Disposable[] = this.context.subscriptions;
+        const subscriptions: Disposable[] = this.context.subscriptions;
 
         workspace.onDidChangeConfiguration(this.loadConfiguration, this, subscriptions);
         this.loadConfiguration();
@@ -34,6 +45,16 @@ export default class PicatLinter implements CodeActionProvider {
         if (this._outputChannel === null) {
             this._outputChannel = window.createOutputChannel("PicatLinter");
             this._outputChannel.clear();
+        }
+    }
+
+    public dispose(): void {
+        if (this._documentListener) {
+            this._documentListener.dispose();
+        }
+
+        if (this._openDocumentListener) {
+            this._openDocumentListener.dispose();
         }
     }
 
@@ -45,7 +66,7 @@ export default class PicatLinter implements CodeActionProvider {
     }
 
     private loadConfiguration(): void {
-        let section = workspace.getConfiguration("picat");
+        const section = workspace.getConfiguration("picat");
 
         if (section) {
             this._executable = section.get<string>("executablePath", "picat");
@@ -53,7 +74,7 @@ export default class PicatLinter implements CodeActionProvider {
         }
 
         this._documentListener = workspace.onDidSaveTextDocument(this.doPlint, this);
-        this._openDocumentListener = workspace.onDidOpenTextDocument(e => {
+        this._openDocumentListener = workspace.onDidOpenTextDocument((e) => {
             this.doPlint(e);
         });
 
@@ -65,14 +86,14 @@ export default class PicatLinter implements CodeActionProvider {
             return;
         }
 
-        let options = workspace.rootPath
+        const options = workspace.rootPath
             ? {
                   cwd: workspace.rootPath,
-                  encoding: "utf8"
+                  encoding: "utf8",
               }
             : undefined;
 
-        let args: string[] = ["-g", `cl('${doc.fileName.replace(/\\/g, "\\\\")}')`];
+        const args: string[] = ["-g", `cl('${doc.fileName.replace(/\\/g, "\\\\")}')`];
 
         spawn(this._executable, args, options)
             .on("process", (proc: any) => {
@@ -88,11 +109,13 @@ export default class PicatLinter implements CodeActionProvider {
                 }
             })
             .then(
-                result => {},
-                err => {
+                // tslint:disable-next-line:no-empty
+                (_result) => {},
+                (err) => {
                     let message = "";
 
                     if (err.code === "ENOENT") {
+                        // tslint:disable-next-line:max-line-length
                         message = `Cannot lint the Picat file. The Picat executable was not found at ${this._executable}. Use the Picat Executable Path setting to configure.`;
                     } else {
                         message = err.message
@@ -103,28 +126,7 @@ export default class PicatLinter implements CodeActionProvider {
                     }
 
                     this.outputMsg(message);
-                }
+                },
             );
-    }
-
-    provideCodeActions(
-        document: TextDocument,
-        range: Range,
-        context: CodeActionContext,
-        token: CancellationToken
-    ): Command[] | Thenable<Command[]> {
-        let codeActions: Command[] = [];
-
-        return codeActions;
-    }
-
-    public dispose(): void {
-        if (this._documentListener) {
-            this._documentListener.dispose();
-        }
-
-        if (this._openDocumentListener) {
-            this._openDocumentListener.dispose();
-        }
     }
 }

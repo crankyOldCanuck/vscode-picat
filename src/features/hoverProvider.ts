@@ -1,10 +1,10 @@
 import {
-    HoverProvider,
-    TextDocument,
-    Position,
     CancellationToken,
     Hover,
-    MarkedString
+    HoverProvider,
+    MarkedString,
+    Position,
+    TextDocument,
 } from "vscode";
 import { Utils } from "../utils/utils";
 
@@ -14,9 +14,9 @@ export default class PicatHoverProvider implements HoverProvider {
     public provideHover(
         doc: TextDocument,
         position: Position,
-        token: CancellationToken
+        _token: CancellationToken,
     ): Nullable<Hover> {
-        let wordRange: any = doc.getWordRangeAtPosition(position);
+        const wordRange: any = doc.getWordRangeAtPosition(position);
 
         if (!wordRange) {
             return null;
@@ -24,12 +24,12 @@ export default class PicatHoverProvider implements HoverProvider {
 
         const pi = Utils.getPredicateUnderCursor(doc, position);
         const descs = Utils.getPredDescriptions(pi);
-        let contents: MarkedString[] = [];
+        const contents: MarkedString[] = [];
 
         if (descs) {
             contents.push({
                 language: "picat",
-                value: descs
+                value: descs,
             });
         }
 

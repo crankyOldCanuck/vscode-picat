@@ -1,6 +1,10 @@
 {
+    "extends": [
+        "tslint:recommended"
+    ],
 	"rules": {
-		"no-string-throw": true,
+        "no-irregular-whitespace": true,
+        "no-string-throw": true,
 		"no-unused-expression": true,
 		"no-duplicate-variable": true,
 		"curly": true,
@@ -9,7 +13,14 @@
 			true,
 			"always"
 		],
-		"triple-equals": true
+        "triple-equals": true,
+        "object-literal-sort-keys": false,
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format",
+            "allow-leading-underscore"
+        ]
 	},
 	"defaultSeverity": "warning"
 }
