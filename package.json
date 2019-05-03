@@ -140,13 +140,13 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "@types/bluebird": "^3.5.3",
+        "@types/bluebird": "^3.5.26",
         "@types/jsesc": "^0.4.29",
-        "@types/mocha": "^2.2.42",
-        "@types/node": "^8.10.25",
-        "tslint": "^5.8.0",
-        "typescript": "^3.1.4",
-        "vscode": "^1.1.25"
+        "@types/mocha": "^5.2.6",
+        "@types/node": "^11.13.9",
+        "tslint": "^5.16.0",
+        "typescript": "^3.4.5",
+        "vscode": "^1.1.33"
     },
     "dependencies": {
         "jsesc": "^2.5.2",
